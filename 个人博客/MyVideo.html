@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>MyVideo</title>
+		<link rel="stylesheet" type="text/css" href="css/video.css" />
+		<link rel="stylesheet" type="text/css" href="css/animate.css" />
+		<link rel="stylesheet" href="css/bootscript.min.css">
+		<script src="js/jQuery-3.5.1.min.js"></script>
+		<script src="js/bootstrap-v4.3.1.min.js"></script>
+		<script src="js/ppper.min.js"></script>
+		<style type="text/css">
+			body{
+				
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="FinalBlog.html"><img src="img/wallhaven-xlg11v.jpg" alt="" style="width: 50px;height: 50px;border-radius: 50%">
+				刘成举的个人博客</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02"
+			 aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="FinalBlog.html">首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="html.html">html5</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" href="MyVideo.html">我的兴趣</a>
+					</li>
+
+					<li class="nav-item">
+						<a class="nav-link" href="MySchool.html" tabindex="-1" aria-disabled="true">我的学校</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
+			</div>
+		</nav>
+		<div id="all" class="">
+			<div style="margin: 0 auto;width: 1000px;text-align: center;" class="animated bounceInDown">
+				<figcaption style="text-align: center;color: #e67e22;font-family: 华文琥珀">
+					<h2>MORE THAN A GAME</h2>
+				</figcaption>
+				<video id="video" src="video/video.mp4" style="width: 800px;;">
+				</video>
+				<div style="margin-left: 80px">
+					<progress id="progress" value="0" max="100" style="width: 800px"></progress>
+					<span id="curTime">00:00</span>/<span id="totalTime">01:31</span>
+				</div>
+				<div id="button">
+					<img src="img/movie.png" id="btn_play">
+					<img src="img/play.png" id="btn_pause">
+					<img src="img/soundsize.png" id="btn_muted">
+					<img src="img/全屏.png" id="btn_fullScreen">
+					<input type="range" value='1' name="range" id="btn_volume" min="0" max="1" step='0.1'>
+					<button id="btn_go">加速</button>
+					<button id="btn_back">减速</button>
+					<img src="img/后退.png" id="back_five">
+					<img src="img/快进.png" id="go_five">
+				</div>
+			</div>
+			<a href="html.html"><span style="font-size: 80px;position: absolute;top: 380px;left: 30px;opacity: 110%"><</span> </a> 
+			<a href="MySchool.html"><span style="font-size: 80px;position: absolute;top: 380px;right: 30px;opacity: 110%">> </span></a>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	let btn_paly = document.querySelector("#btn_play");
+	let btn_pause = document.querySelector("#btn_pause");
+	let video = document.querySelector("#video");
+	let btn_muted = document.querySelector("#btn_muted");
+	let btn_fullScreen = document.querySelector("#btn_fullScreen");
+	let btn_go = document.querySelector("#btn_go");
+	let totalTime = document.querySelector("#totalTime");
+	let btn_volume = document.querySelector("#btn_volume");
+	let btn_back = document.querySelector("#btn_back");
+	let go_five = document.querySelector("#go_five");
+	let back_five = document.querySelector("#back_five");
+	let pro = document.querySelector("#progress");
+	let curTime = document.querySelector("#curTime")
+	//时间
+	video.addEventListener('canplay', function() {
+		let min = Math.floor(video.duration / 60);
+		let sec = Math.floor(video.duration % 60);
+		totalTime.innerHTML = min + ":" + sec;
+
+	})
+	//播放
+	btn_pause.disabled = true;
+	btn_paly.addEventListener("click", function() {
+		video.play();
+		btn_pause.disabled = false;
+		btn_paly.disabled = true;
+	})
+	//暂停
+	btn_pause.addEventListener("click", function() {
+		video.pause();
+		btn_pause.disabled = true;
+		btn_paly.disabled = false;
+	})
+	//静音
+	btn_muted.addEventListener("click", function() {
+		video.muted = !video.muted;
+		// btn_muted.innerHTML = video.muted?"取消静音":"静音";
+		btn_muted.src = video.muted ? "img/mute.png" : "img/soundsize.png";
+	})
+	//全屏
+	btn_fullScreen.addEventListener("click", function() {
+		fullScreen(video);
+	})
+	function fullScreen(ele) {
+		if (ele.mozRequestFullScreen) {
+			ele.mozRequestFullScreen(); //火狐浏览器
+		} else if (ele.webkitRequestFullscreen) {
+			ele.webkitRequestFullscreen(); //谷歌浏览器
+		} else if (ele.oRequestFullscreen) {
+			ele.oRequestFullscreen(); //opera浏览器
+		} else if (ele.msRequestFullscreen) {
+			ele.msRequestFullscreen(); //ie浏览器
+		} else if (ele.requestFullscreen) {
+			ele.requestFullscreen();
+		}
+	}
+	//倍速
+	btn_go.addEventListener("click", function() {
+		video.playbackRate += 0.1;
+	})
+	btn_back.addEventListener("click", function() {
+		video.playbackRate -= 0.1;
+	})
+	//快进5s
+	go_five.addEventListener("click", function() {
+		video.currentTime += 5;
+	})
+	//后退5s
+	back_five.addEventListener("click", function() {
+		video.currentTime -= 5;
+	})
+
+	//声音
+	btn_volume.addEventListener("change", function() {
+		video.volume = btn_volume.value;
+
+	})
+	//获取当前时间
+	pro.addEventListener("click", function(event) {
+		let x = event.offsetX;
+		video.currentTime = x / this.offsetWidth * video.duration;
+	})
+
+	video.addEventListener("timeupdate", function() {
+		pro.value = video.currentTime / video.duration * 100;
+		let min = Math.floor(video.currentTime / 60);
+		let sec = Math.floor(video.currentTime % 60);
+		// min = video.currentTime<10?"0"+min : min;
+		sec = video.currentTime < 10 ? "0" + sec : sec;
+		curTime.innerHTML = min + ":" + sec;
+	})
+</script>
